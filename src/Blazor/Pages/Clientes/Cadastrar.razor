@@ -1,0 +1,93 @@
+﻿@page "/Clientes/cadastrar"
+@using Blazor.Data
+@using Models = Blazor.Client.Models
+
+@inject ClienteService Service
+
+<h3>Cadastrar Clientes</h3>
+
+<div class="container">
+    <h1 class="text-center">Cadastro de Clientes</h1>
+    <div class="row" style="padding-top: 10%">
+        <div class="col-lg-12">
+            <div class="form-group-lg">
+                <EditForm class="text-center" Model="@_cliente">
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label id="Nome"> Nome:</label>
+                            <InputText id="Nome" @bind-Value="@_cliente.Nome" class="form-control" />
+                            <span class="text-danger" style="font-size:small;"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label id="Rg">RG:</label>
+                            <InputText id="Rg" @bind-Value="@_cliente.Rg" class="form-control" />
+                            <span class="text-danger" style="font-size:small;"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label id="Cpf">CPF:</label>
+                            <InputText id="Cpf" @bind-Value="@_cliente.Cpf" class="form-control" />
+                            <span class="text-danger" style="font-size:small;"></span>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label id="Endereco">Endereço:</label>
+                            <InputText id="Endereco" @bind-Value="@_cliente.Endereco" class="form-control" />
+                            <span class="text-danger" style="font-size:small;"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-lg-6">
+                            <label id="Telefone">Telefone:</label>
+                            <InputText id="Telefone" @bind-Value="@_cliente.Telefone" class="form-control" />
+                            <span class="text-danger" style="font-size:small;"></span>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label id="Celular">Celular:</label>
+                            <InputText id="Celular" @bind-Value="@_cliente.Celular" class="form-control" />
+                            <span class="text-danger" style="font-size:small;"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label id="Email">E-mail:</label>
+                            <InputText id="Email" @bind-Value="@_cliente.Email" class="form-control" />
+                            <span class="text-danger" style="font-size:small;"></span>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <br />
+                            <br />
+                            <input type="submit" value="Cadastrar" class="btn btn-primary" @onclick="AddCliente" />
+                        </div>
+                    </div>
+
+                </EditForm>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@code {
+
+    private Models.Cliente _cliente = new Models.Cliente();
+    private int idCount = 0;
+
+    private void AddCliente()
+    {
+        _cliente.Id = idCount++;
+        Service.Add(_cliente);
+    }
+
+
+}
