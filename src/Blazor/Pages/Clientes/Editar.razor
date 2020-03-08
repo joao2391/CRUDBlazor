@@ -3,6 +3,8 @@
 @using Models = Blazor.Client.Models
 
 @inject ClienteService Service
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
 
 <h3>Cadastrar Clientes</h3>
 
@@ -65,7 +67,7 @@
                         <div class="col-lg-6">
                             <br />
                             <br />
-                            <input type="submit" value="Editar" class="btn btn-primary" @onclick="EditarCliente" />
+                            <input type="submit" value="Editar" class="btn btn-primary" @onclick="OpenModal" />
                         </div>
                     </div>
 
@@ -82,6 +84,7 @@
 
     private Models.Cliente _cliente;
 
+
     [Parameter]
     public int Id { get; set; }
 
@@ -90,9 +93,23 @@
         _cliente = Service.GetById(Id);
     }
 
-    public void EditarCliente()
+    public async Task OpenModal()
     {
+        await JSRuntime.InvokeAsync<string>(
+
+           "jsFunctions.openModalEdit", null);
+
+        EditarCliente();
+
+    }
+
+    private void EditarCliente()
+    {
+        
         Service.Update(_cliente);
+
+        NavigationManager.NavigateTo("cliente");
+
     }
 
 }

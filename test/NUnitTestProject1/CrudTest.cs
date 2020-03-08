@@ -54,6 +54,16 @@ namespace Blazor.Test
             Assert.IsTrue(hasUpdated);
         }
 
+        [Test]
+        public void Should_FDelete_Cliente()
+        {
+            Cliente novoCliente = _service.GetById(_cliente.Id);           
+
+            bool hasDeleted = DeleteCliente(novoCliente);
+
+            Assert.IsTrue(hasDeleted);
+        }
+
 
         #region Private Methods
         private bool AddCliente(Cliente cliente)
@@ -76,6 +86,21 @@ namespace Blazor.Test
             try
             {
                 _service.Update(cliente);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+
+            }
+        }
+
+        private bool DeleteCliente(Cliente cliente)
+        {
+            try
+            {
+                _service.Delete(cliente);
 
                 return true;
             }

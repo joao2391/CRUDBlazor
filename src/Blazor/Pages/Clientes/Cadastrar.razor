@@ -3,6 +3,8 @@
 @using Models = Blazor.Client.Models
 
 @inject ClienteService Service
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
 
 <h3>Cadastrar Clientes</h3>
 
@@ -65,7 +67,7 @@
                         <div class="col-lg-6">
                             <br />
                             <br />
-                            <input type="submit" value="Cadastrar" class="btn btn-primary" @onclick="AddCliente" />
+                            <input type="submit" value="Cadastrar" class="btn btn-primary" @onclick="OpenModal" />
                         </div>
                     </div>
 
@@ -83,10 +85,27 @@
     private Models.Cliente _cliente = new Models.Cliente();
     private int idCount = 0;
 
+
+    /// <summary>
+    /// It opens the JS alert with a message
+    /// </summary>
+    /// <returns>void</returns>
+    public async Task OpenModal()
+    {
+        await JSRuntime.InvokeAsync<string>(
+
+           "jsFunctions.openModalCadastro", null);
+
+        AddCliente();
+
+    }
+
     private void AddCliente()
     {
         _cliente.Id = idCount++;
         Service.Add(_cliente);
+
+        NavigationManager.NavigateTo("cliente");
     }
 
 

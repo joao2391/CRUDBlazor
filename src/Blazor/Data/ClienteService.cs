@@ -9,6 +9,10 @@ namespace Blazor.Data
     {
         readonly Context _context = new Context();
 
+        /// <summary>
+        /// Add cliente to the memory database
+        /// </summary>
+        /// <param name="cliente">The Cliente object</param>
         public void Add(Cliente cliente)
         {
             _context.Clientes.Add(cliente);
@@ -16,6 +20,10 @@ namespace Blazor.Data
 
         }
 
+        /// <summary>
+        /// Get all Clientes from memory database
+        /// </summary>
+        /// <returns>A list of all Clientes</returns>
         public async Task<IEnumerable<Cliente>> GetAllAsync()
         {
             var retorno = new List<Cliente>(_context.Clientes);            
@@ -23,6 +31,11 @@ namespace Blazor.Data
             return retorno;
         }
 
+        /// <summary>
+        /// Get the Cliente by its ID
+        /// </summary>
+        /// <param name="id">An integer ID</param>
+        /// <returns></returns>
         public Cliente GetById(int id)
         {
             var query = _context.Clientes.Find(id);
@@ -30,13 +43,27 @@ namespace Blazor.Data
             return query;
         }
 
+        /// <summary>
+        /// Update the Cliente on memory database
+        /// </summary>
+        /// <param name="cliente">The Cliente object</param>
         public void Update(Cliente cliente)
         {
             _context.Clientes.Update(cliente);
             SaveChanges();
         }
 
-        public int SaveChanges()
+        /// <summary>
+        /// Delete the Client on memory database
+        /// </summary>
+        /// <param name="cliente">The Cliente object</param>
+        public void Delete(Cliente cliente)
+        {
+            _context.Clientes.Remove(cliente);
+            SaveChanges();
+        }
+
+        private int SaveChanges()
         {
             return _context.SaveChanges();
         }

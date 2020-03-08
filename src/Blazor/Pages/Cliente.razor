@@ -5,6 +5,7 @@
 
 
 @inject ClienteService Service
+@inject IJSRuntime JSRuntime
 
 <h3>Clientes</h3>
 <hr />
@@ -43,11 +44,17 @@ else
                     <td>@cliente.Cpf</td>
                     <td>@cliente.Endereco</td>
                     <td><a class="nav-link" href="Clientes/editar/@cliente.Id">Editar</a></td>
-                    <td><input type="submit" value="Excluir" class="btn btn-danger" @onclick="ExcluirCliente" /></td>
+                    @*<td><input type="submit" value="Excluir" class="btn btn-danger" @onclick="(() => OpenModal(cliente))" /></td>*@
+                <td><button value="Excluir" class="btn btn-danger" @onclick="(() => OpenModal(cliente))">Excluir</button></td>
                 </tr>
+
+
             }
+
+
         </tbody>
     </table>
+    
 }
 
 @code {
@@ -56,14 +63,31 @@ else
     public string url = "Clientes/editar";
     //NavigationManager nav;
 
+
     protected override async Task OnInitializedAsync()
     {
         clientes = await Service.GetAllAsync();
+        
     }
 
-    public void ExcluirCliente()
+    public async Task OpenModal(Models.Cliente cliente)
     {
-        //TODO
+        await JSRuntime.InvokeAsync<string>(
+
+           "jsFunctions.openModal", null);
+
+        ExcluirCliente(cliente);
+
+         await JSRuntime.InvokeAsync<string>(
+
+           "jsFunctions.refreshPage", null);
+        
+    }
+
+    private void ExcluirCliente(Models.Cliente cliente)
+    {
+        Service.Delete(cliente);
+
     }
 
     //public void Redirect(Guid id)
