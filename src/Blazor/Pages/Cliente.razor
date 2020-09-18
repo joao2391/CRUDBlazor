@@ -19,6 +19,10 @@
 }
 else
 {
+    <NavLink class="nav-link" href="Clientes/cadastrar">
+        <span>Cadastrar</span>
+    </NavLink>
+    
     <table class="table">
         <thead>
             <tr>
@@ -47,8 +51,6 @@ else
                     @*<td><input type="submit" value="Excluir" class="btn btn-danger" @onclick="(() => OpenModal(cliente))" /></td>*@
                 <td><button value="Excluir" class="btn btn-danger" @onclick="(() => OpenModal(cliente))">Excluir</button></td>
                 </tr>
-
-
             }
 
 
@@ -66,7 +68,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        clientes = await Service.GetAllAsync();
+        clientes = Service.GetAll();//await Service.GetAllAsync();
         
     }
 
